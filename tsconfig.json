@@ -22,7 +22,8 @@
     }
   },
   "files": [
-    "./index.tsx"
+    "./index.tsx",
+    "./src/vite-env.d.ts"
   ],
   "angularCompilerOptions": {
     "disableTypeScriptVersionCheck": true
