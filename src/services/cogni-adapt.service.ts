@@ -17,12 +17,24 @@ export class CogniAdaptService {
   error = signal<string | null>(null);
 
   constructor() {
-     const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || '';
-     if (!apiKey) {
+     const apiKey = this.getApiKey();
+     if (!apiKey || apiKey === '__VITE_GEMINI_API_KEY__') {
        console.error('VITE_GEMINI_API_KEY is not set. Please add it to your environment variables.');
      }
      this.ai = new GoogleGenAI({apiKey});
      this.loadProfileFromStorage();
+  }
+
+  private getApiKey(): string {
+    // Try multiple ways to get the API key
+    try {
+      if (typeof import.meta !== 'undefined' && (import.meta as any).env) {
+        return (import.meta as any).env.VITE_GEMINI_API_KEY || '';
+      }
+    } catch (e) {
+      console.warn('Could not access import.meta.env');
+    }
+    return '';
   }
 
   private loadProfileFromStorage(): void {
@@ -231,7 +243,7 @@ export class CogniAdaptService {
           // as the property access path is correct according to the documentation.
           const downloadLink = (operation.response as any)?.generatedVideos?.[0]?.video?.uri;
           if (downloadLink) {
-              const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || '';
+              const apiKey = this.getApiKey();
               const videoUrl = `${downloadLink}&key=${apiKey}`;
               yield { status: 'Complete', videoUrl };
           } else {

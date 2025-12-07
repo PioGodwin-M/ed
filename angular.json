@@ -17,10 +17,7 @@
               "browser": "."
             },
             "browser": "index.tsx",
-            "tsConfig": "tsconfig.json",
-            "define": {
-              "import.meta.env.VITE_GEMINI_API_KEY": "process.env.VITE_GEMINI_API_KEY"
-            }
+            "tsConfig": "tsconfig.json"
           },
           "configurations": {
             "production": {
