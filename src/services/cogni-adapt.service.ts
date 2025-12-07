@@ -17,7 +17,11 @@ export class CogniAdaptService {
   error = signal<string | null>(null);
 
   constructor() {
-     this.ai = new GoogleGenAI({apiKey: import.meta.env.VITE_GEMINI_API_KEY});
+     const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || '';
+     if (!apiKey) {
+       console.error('VITE_GEMINI_API_KEY is not set. Please add it to your environment variables.');
+     }
+     this.ai = new GoogleGenAI({apiKey});
      this.loadProfileFromStorage();
   }
 
@@ -227,7 +231,8 @@ export class CogniAdaptService {
           // as the property access path is correct according to the documentation.
           const downloadLink = (operation.response as any)?.generatedVideos?.[0]?.video?.uri;
           if (downloadLink) {
-              const videoUrl = `${downloadLink}&key=${import.meta.env.VITE_GEMINI_API_KEY}`;
+              const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || '';
+              const videoUrl = `${downloadLink}&key=${apiKey}`;
               yield { status: 'Complete', videoUrl };
           } else {
               throw new Error('Video generation finished but no download link was provided.');
