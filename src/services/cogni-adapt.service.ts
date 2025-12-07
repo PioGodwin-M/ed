@@ -68,11 +68,14 @@ export class CogniAdaptService {
     this.transformedContent.set(null);
 
     try {
+      const apiKey = this.getApiKey();
+      console.log('API Key available:', !!apiKey, 'Length:', apiKey?.length);
+      
       const prompt = this.getPromptForProfile(profile, text);
       const schema = this.getSchemaForProfile(profile);
 
       const response = await this.ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.0-flash-exp",
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -84,9 +87,11 @@ export class CogniAdaptService {
       const result = JSON.parse(jsonString) as Omit<TransformedContent, 'profile'>;
       this.transformedContent.set({ ...result, profile });
       this.router.navigate(['/output']);
-    } catch (e) {
+    } catch (e: any) {
       console.error('Error transforming text:', e);
-      this.error.set('Failed to transform content. Please check your API key and try again.');
+      console.error('Error details:', e?.message, e?.status, e?.statusText);
+      const errorMessage = e?.message || e?.statusText || 'Failed to transform content. Please check your API key and try again.';
+      this.error.set(errorMessage);
     } finally {
       this.isLoading.set(false);
     }
@@ -96,7 +101,7 @@ export class CogniAdaptService {
     if (this.chat) return;
 
     this.chat = this.ai.chats.create({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-2.0-flash-exp',
         config: {
             systemInstruction: 'You are Cogni-Chat, a friendly and helpful AI assistant for the Cogni-Adapt application. Your goal is to help users understand complex topics by providing clear, concise, and accessible explanations. Avoid jargon and be encouraging.',
         },
@@ -148,7 +153,7 @@ export class CogniAdaptService {
         const textPart = { text: prompt };
         
         const response = await this.ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-2.0-flash-exp',
           contents: [{ parts: [textPart, imagePart] }],
         });
         return response.text;
@@ -175,7 +180,7 @@ export class CogniAdaptService {
         const textPart = { text: "Transcribe the following audio." };
 
         const response = await this.ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-2.0-flash-exp',
           contents: [{ parts: [textPart, audioPart] }],
         });
         return response.text;
@@ -273,7 +278,7 @@ export class CogniAdaptService {
         const textPart = { text: prompt };
 
         const response = await this.ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-2.0-flash-exp',
           contents: [{ parts: [textPart, videoPart] }],
         });
         return response.text;
