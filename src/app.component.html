@@ -1,0 +1,35 @@
+
+<div class="min-h-screen text-slate-800 dark:text-slate-200">
+  <header class="sticky top-0 z-50 p-4 sm:p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-sm">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl sm:text-3xl font-bold">
+        <a routerLink="/profile" class="text-indigo-600 dark:text-indigo-400">Cogni-Adapt</a>
+      </h1>
+      <nav class="flex items-center space-x-4 sm:space-x-6">
+        <a routerLink="/input" routerLinkActive="text-indigo-600 dark:text-indigo-400 font-bold" [routerLinkActiveOptions]="{exact: true}" class="text-lg text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Transform</a>
+        <a routerLink="/chat" routerLinkActive="text-indigo-600 dark:text-indigo-400 font-bold" [routerLinkActiveOptions]="{exact: true}" class="text-lg text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Chatbot</a>
+        
+        <div class="relative">
+          <button (click)="toggleToolsDropdown()" class="text-lg text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center">
+            AI Tools
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          @if (isToolsDropdownOpen()) {
+            <div class="absolute right-0 mt-2 w-56 origin-top-right bg-white dark:bg-slate-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50" (mouseleave)="closeToolsDropdown()">
+              <div class="py-1" role="menu" aria-orientation="vertical" (click)="closeToolsDropdown()">
+                <a routerLink="/image-analyzer" routerLinkActive="font-bold bg-slate-100 dark:bg-slate-700" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem">Image Analyzer</a>
+                <a routerLink="/audio-transcriber" routerLinkActive="font-bold bg-slate-100 dark:bg-slate-700" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem">Audio Transcriber</a>
+                <a routerLink="/image-generator" routerLinkActive="font-bold bg-slate-100 dark:bg-slate-700" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem">Image Generator</a>
+                <a routerLink="/video-animator" routerLinkActive="font-bold bg-slate-100 dark:bg-slate-700" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem">Video Animator</a>
+                <a routerLink="/video-analyzer" routerLinkActive="font-bold bg-slate-100 dark:bg-slate-700" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem">Video Analyzer</a>
+              </div>
+            </div>
+          }
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main class="p-4 sm:p-6 container mx-auto">
+    <router-outlet></router-outlet>
+  </main>
+</div>

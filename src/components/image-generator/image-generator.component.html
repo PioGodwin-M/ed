@@ -1,0 +1,68 @@
+
+<div class="max-w-4xl mx-auto">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+      Image Generator
+    </h2>
+    <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+      Describe the image you want to create.
+    </p>
+  </div>
+  
+  @if (cogniAdaptService.error(); as error) {
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+      <p class="font-bold">Error</p>
+      <p>{{ error }}</p>
+    </div>
+  }
+
+  <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 space-y-6">
+    <div>
+      <label for="prompt" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Prompt</label>
+      <textarea id="prompt" [value]="prompt()" (input)="onPromptInput($event)" rows="4" class="mt-1 block w-full rounded-md bg-slate-100 dark:bg-slate-700 border-slate-300 dark:border-slate-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="e.g., A photo of an astronaut riding a horse on Mars"></textarea>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Aspect Ratio</label>
+      <div class="mt-2 flex space-x-4">
+        @for(ratio of ['1:1', '16:9', '9:16', '4:3', '3:4']; track ratio) {
+          <button
+            (click)="setAspectRatio(ratio)"
+            [class.bg-indigo-600]="aspectRatio() === ratio"
+            [class.text-white]="aspectRatio() === ratio"
+            [class.bg-slate-200]="aspectRatio() !== ratio"
+            [class.dark:bg-slate-700]="aspectRatio() !== ratio"
+            class="px-4 py-2 rounded-md text-sm font-medium transition-colors">
+            {{ ratio }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button
+        (click)="generateImage()"
+        [disabled]="cogniAdaptService.isLoading() || !prompt()"
+        class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
+        @if (cogniAdaptService.isLoading()) {
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          <span>Generating...</span>
+        } @else {
+          <span>Generate Image</span>
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (generatedImageUrl()) {
+    <div class="mt-8 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6">
+      <h3 class="text-xl font-bold mb-4 text-center">Generated Image</h3>
+      <div class="flex justify-center">
+        <img [src]="generatedImageUrl()" alt="Generated image" class="max-w-full h-auto rounded-lg shadow-md">
+      </div>
+       <div class="text-center mt-4">
+          <a [href]="generatedImageUrl()" download="generated-image.jpg" class="inline-block px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-slate-600 hover:bg-slate-700">Download</a>
+        </div>
+    </div>
+  }
+</div>

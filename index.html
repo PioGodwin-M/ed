@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Cogni-Adapt</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/npm/opendyslexic@2.0.7/build/fonts/OpenDyslexic-Regular.otf') format('opentype');
+    }
+    .font-opendyslexic {
+      font-family: 'OpenDyslexic', sans-serif;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://aistudiocdn.com/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://aistudiocdn.com/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://aistudiocdn.com/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://aistudiocdn.com/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://aistudiocdn.com/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://aistudiocdn.com/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@google/genai": "https://next.esm.sh/@google/genai@^1.31.0?external=rxjs",
+    "@angular/common": "https://next.esm.sh/@angular/common@^21.0.3?external=rxjs",
+    "@angular/common/http": "https://next.esm.sh/@angular/common@^21.0.3/http?external=rxjs",
+    "@angular/core": "https://next.esm.sh/@angular/core@^21.0.3?external=rxjs",
+    "@angular/router": "https://next.esm.sh/@angular/router@^21.0.3?external=rxjs",
+    "@angular/platform-browser": "https://next.esm.sh/@angular/platform-browser@^21.0.3?external=rxjs",
+    "@angular/compiler": "https://next.esm.sh/@angular/compiler@^21.0.3?external=rxjs"
+  }
+}
+</script>
+<!-- pdf.js for client-side PDF text extraction -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.min.mjs" type="module"></script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans antialiased">
+  <app-root></app-root>
+</body>
+</html>

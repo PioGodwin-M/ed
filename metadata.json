@@ -1,0 +1,7 @@
+{
+  "name": "Cogni-Adapt",
+  "description": "An educational app that transforms dense textbook content into accessible formats for neurodiverse learners using AI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

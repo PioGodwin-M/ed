@@ -1,0 +1,51 @@
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 md:p-8">
+  <h3 class="text-2xl font-bold text-center mb-6">Knowledge Check</h3>
+
+  @if (!quizFinished()) {
+    @if (questions().length > 0) {
+      @let question = questions()[currentQuestionIndex()];
+      <div>
+        <p class="text-lg font-semibold mb-4 text-slate-800 dark:text-slate-200">
+          Question {{ currentQuestionIndex() + 1 }} of {{ questions().length }}: {{ question.question }}
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          @for (option of question.options; track option) {
+            <button
+              (click)="selectAnswer(option)"
+              [disabled]="selectedAnswer() !== null"
+              [class]="getButtonClass(option)"
+              class="w-full text-left p-4 rounded-lg border-2 border-transparent transition-colors duration-200 disabled:cursor-not-allowed">
+              {{ option }}
+            </button>
+          }
+        </div>
+
+        @if (selectedAnswer(); as answer) {
+          <div class="mt-6 p-4 rounded-lg" [class]="answer === question.correctAnswer ? 'bg-green-100 dark:bg-green-900' : 'bg-red-100 dark:bg-red-900'">
+            <p class="font-bold" [class]="answer === question.correctAnswer ? 'text-green-800 dark:text-green-200' : 'text-red-800 dark:text-red-200'">
+              {{ answer === question.correctAnswer ? 'Correct!' : 'Incorrect.' }}
+            </p>
+            <p class="mt-2 text-slate-700 dark:text-slate-300">{{ question.explanation }}</p>
+            <button
+              (click)="nextQuestion()"
+              class="mt-4 px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700">
+              {{ currentQuestionIndex() < questions().length - 1 ? 'Next Question' : 'Finish Quiz' }}
+            </button>
+          </div>
+        }
+      </div>
+    }
+  } @else {
+    <div class="text-center">
+      <h4 class="text-2xl font-bold">Quiz Complete!</h4>
+      <p class="text-4xl my-4">
+        Your score: <span class="font-bold text-indigo-500">{{ score() }}</span> / {{ questions().length }}
+      </p>
+      <button
+        (click)="restartQuiz()"
+        class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700">
+        Try Again
+      </button>
+    </div>
+  }
+</div>
